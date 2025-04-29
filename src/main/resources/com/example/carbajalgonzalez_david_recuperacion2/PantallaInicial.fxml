@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.PantallaInicialController">
+    <VBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+        <Label style="-fx-font-size: 18px;" text="Gestión de Cursos - Universidad" />
+
+        <ComboBox fx:id="comboCursos" promptText="Selecciona un curso" />
+
+        <TextField fx:id="nombreField" promptText="Nombre" />
+        <TextField fx:id="apellidosField" promptText="Apellidos" />
+        <TextField fx:id="usuarioField" promptText="Nombre de usuario" />
+        <TextField fx:id="direccionField" promptText="Dirección" />
+        <TextField fx:id="telefonoField" promptText="Teléfono" />
+
+        <HBox spacing="10">
+            <Button onAction="#onSiguiente" text="Siguiente" />
+            <Button fx:id="btnVerAlumnos" onAction="#onVerAlumnos" text="Ver alumnos" />
+        </HBox>
+    </VBox>
+</AnchorPane>
