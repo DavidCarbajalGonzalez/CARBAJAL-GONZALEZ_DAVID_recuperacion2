@@ -24,6 +24,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Constantes.PANTALLA_INICIAL_FXML));
         Scene scene = new Scene(fxmlLoader.load(), Constantes.VENTANA_ANCHO, Constantes.VENTANA_ALTO);
+        scene.getStylesheets().add(Main.class.getResource(Constantes.ESTILO_CSS).toExternalForm());
         stage.setTitle(Constantes.TITULO_PANTALLA_INICIAL);
         stage.setScene(scene);
         stage.show();

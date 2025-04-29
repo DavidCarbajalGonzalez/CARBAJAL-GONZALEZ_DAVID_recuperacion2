@@ -6,6 +6,8 @@ public class Constantes {
     public static final String PANTALLA_INICIAL_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/PantallaInicial.fxml";
     public static final String PANTALLA_CONFIRMACION_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/PantallaConfirmacion.fxml";
     public static final String PANTALLA_LISTADO_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/PantallaListado.fxml";
+    public static final String ESTILO_CSS = "/com/example/carbajalgonzalez_david_recuperacion2/style/css.css";
+
 
     // Base de datos
     public static final String RUTA_BASEDATOS = "data/universidad.db";
