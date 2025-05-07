@@ -1,5 +1,6 @@
 package com.example.carbajalgonzalez_david_recuperacion2.controller;
 
+import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.RelacionDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.AlertaUtils;
@@ -81,17 +82,75 @@ public class PantallaConfirmacionController {
      */
     @FXML
     private void onConfirmar() {
-        int idAlumno = AlumnoDAO.insertarAlumno(usuario, nombre, apellidos, direccion, telefono);
-        if (idAlumno != -1) {
-            RelacionDAO.registrarRelacion(idAlumno, curso);
-            AlertaUtils.mostrarInfo("Éxito", "Alumno inscrito correctamente en el curso.");
+        // Comprobar si el alumno ya existe
+        Alumno alumnoExistente = AlumnoDAO.buscarPorNombre(usuario);
+        int idAlumno;
 
-            // Usar constantes para ruta y título
-            PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, btnConfirmar);
-            PantallaUtils.cerrarVentana(cursoLabel);
+        if (alumnoExistente != null) {
+            // Si ya existe, recuperamos su ID
+            idAlumno = AlumnoDAO.obtenerIdAlumno(usuario);
+
+            // Obtenemos el ID del curso
+            int idCurso = RelacionDAO.obtenerIdCurso(curso);
+
+            // Comprobamos si ya está inscrito en ese curso
+            if (RelacionDAO.relacionExiste(idAlumno, idCurso)) {
+                AlertaUtils.mostrarError("Duplicado", "Este alumno ya está inscrito en el curso seleccionado.");
+                return;
+            }
+
+            // Si no está inscrito, registramos la nueva relación
+            RelacionDAO.registrarRelacion(idAlumno, curso);
 
         } else {
-            AlertaUtils.mostrarError("Error", Constantes.MENSAJE_ERROR_INSERCION);
+            // Si no existe, lo insertamos
+            idAlumno = AlumnoDAO.insertarAlumno(usuario, nombre, apellidos, direccion, telefono);
+
+            if (idAlumno == -1) {
+                AlertaUtils.mostrarError("Error", "No se pudo registrar el alumno.");
+                return;
+            }
+
+            // Y luego registramos la relación
+            RelacionDAO.registrarRelacion(idAlumno, curso);
         }
+
+        AlertaUtils.mostrarInfo("Éxito", "Alumno inscrito correctamente en el curso.");
+        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, cursoLabel);
     }
+
+    @FXML
+    private void onActualizar() {
+        // Verificar si el alumno ya existe por su nombre de usuario
+        Alumno alumnoExistente = AlumnoDAO.buscarPorNombre(usuario);
+        if (alumnoExistente == null) {
+            AlertaUtils.mostrarError("Alumno no encontrado", "El usuario no está registrado. Usa 'Confirmar' para crearlo.");
+            return;
+        }
+
+        // Actualizar sus datos (por si se han cambiado campos)
+        boolean actualizado = AlumnoDAO.actualizarDatosAlumno(usuario, nombre, apellidos, direccion, telefono);
+        if (!actualizado) {
+            AlertaUtils.mostrarError("Error", "No se pudieron actualizar los datos del alumno.");
+            return;
+        }
+
+        // Obtener IDs
+        int idAlumno = AlumnoDAO.obtenerIdAlumno(usuario);
+        int idCurso = RelacionDAO.obtenerIdCurso(curso);
+
+        // Comprobar si ya está inscrito en el curso
+        if (RelacionDAO.relacionExiste(idAlumno, idCurso)) {
+            AlertaUtils.mostrarError("Ya inscrito", "El alumno ya está inscrito en el curso seleccionado.");
+            return;
+        }
+
+        // Registrar nueva relación alumno-curso
+        RelacionDAO.registrarRelacion(idAlumno, curso);
+        AlertaUtils.mostrarInfo("Éxito", "Alumno actualizado y nuevo curso registrado.");
+
+        // Ir al listado y cerrar
+        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, cursoLabel);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.carbajalgonzalez_david_recuperacion2.controller;
 
+import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
+import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.CursoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.AlertaUtils;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
@@ -35,6 +37,18 @@ public class PantallaInicialController {
     public void initialize() {
         comboCursos.getItems().clear();
         comboCursos.getItems().addAll(CursoDAO.obtenerCursos());
+        nombreField.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.isEmpty()) {
+                Alumno alumno = AlumnoDAO.buscarPorNombre(newVal);
+                if (alumno != null) {
+                    usuarioField.setText(alumno.getUsuario());
+                    apellidosField.setText(alumno.getApellidos());
+                    direccionField.setText(alumno.getDireccion());
+                    telefonoField.setText(alumno.getTelefono());
+                }
+            }
+        });
+
     }
 
     /**

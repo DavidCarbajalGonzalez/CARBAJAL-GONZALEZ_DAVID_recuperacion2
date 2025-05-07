@@ -25,6 +25,14 @@ public class AlumnoDAO {
      * @return ID del alumno insertado, o -1 si ocurrió un error.
      */
     public static int insertarAlumno(String usuario, String nombre, String apellidos, String direccion, String telefono) {
+        // Comprobamos si ya existe un alumno con ese usuario
+        Alumno existente = buscarPorNombre(usuario);
+        if (existente != null) {
+            // Ya existe → devolvemos su ID directamente
+            return obtenerIdAlumno(usuario);
+        }
+
+        // Si no existe, lo insertamos
         String sql = "INSERT INTO " + Constantes.TABLA_ALUMNOS + " (nombre_usuario, nombre, apellidos, direccion, telefono) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = Conexion.getConexion();
@@ -44,6 +52,7 @@ public class AlumnoDAO {
             return -1;
         }
     }
+
 
     /**
      * Obtiene el ID de un alumno a partir de su nombre de usuario.
@@ -76,21 +85,21 @@ public class AlumnoDAO {
         List<AlumnoCursoDTO> lista = new ArrayList<>();
 
         String sql = """
-            SELECT c.nombre AS curso, a.nombre, a.apellidos
-            FROM alumnos a
-            JOIN relaciones r ON a.id = r.id_alumno
-            JOIN cursos c ON c.id = r.id_curso
-            ORDER BY c.nombre, a.apellidos;
-        """;
+        SELECT a.nombre, a.apellidos, GROUP_CONCAT(c.nombre, ', ') AS cursos
+        FROM alumnos a
+        JOIN relaciones r ON a.id = r.id_alumno
+        JOIN cursos c ON c.id = r.id_curso
+        GROUP BY a.id
+        ORDER BY a.apellidos;
+    """;
 
-        try {
-            Connection conn = Conexion.getConexion();
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 lista.add(new AlumnoCursoDTO(
-                        rs.getString("curso"),
+                        rs.getString("cursos"),
                         rs.getString("nombre"),
                         rs.getString("apellidos")
                 ));
@@ -101,5 +110,60 @@ public class AlumnoDAO {
         }
 
         return lista;
+    }
+
+    /**
+     * Clase q busca el alumno por el nombre
+     *
+     * @param nombre
+     * @return
+     */
+    public static Alumno buscarPorNombre(String nombre) {
+        String sql = "SELECT * FROM alumnos WHERE nombre = ?";
+        try {
+            Connection conn = Conexion.getConexion();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Alumno(
+                        rs.getString("nombre_usuario"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Actualiza los datos de un alumno existente.
+     */
+    public static boolean actualizarDatosAlumno(String usuario, String nombre, String apellidos, String direccion, String telefono) {
+        String sql = "UPDATE " + Constantes.TABLA_ALUMNOS +
+                " SET nombre = ?, apellidos = ?, direccion = ?, telefono = ? WHERE nombre_usuario = ?";
+
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+            stmt.setString(2, apellidos);
+            stmt.setString(3, direccion);
+            stmt.setString(4, telefono);
+            stmt.setString(5, usuario);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar datos del alumno:");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

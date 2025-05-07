@@ -6,7 +6,7 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.PantallaListadoController">
     <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-        <Label text="Listado de Alumnos por Curso" style="-fx-font-size: 16px;" />
+        <Label text="Listado de Alumnos" style="-fx-font-size: 16px;" />
         <TableView fx:id="tablaAlumnos">
             <columns>
                 <TableColumn fx:id="colCurso" text="Curso" />
@@ -14,5 +14,6 @@
                 <TableColumn fx:id="colApellidos" text="Apellidos" />
             </columns>
         </TableView>
+        <Button text="Volver" onAction="#onVolver" alignment="CENTER" />
     </VBox>
 </AnchorPane>

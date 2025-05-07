@@ -15,7 +15,7 @@ public class Constantes {
     // Títulos de ventanas
     public static final String TITULO_PANTALLA_INICIAL = "Inscripción a cursos";
     public static final String TITULO_PANTALLA_CONFIRMACION = "Confirmar inscripción";
-    public static final String TITULO_PANTALLA_LISTADO = "Listado de alumnos por curso";
+    public static final String TITULO_PANTALLA_LISTADO = "Listado de alumnos";
 
     // Nombres de tablas
     public static final String TABLA_ALUMNOS = "alumnos";
@@ -23,8 +23,8 @@ public class Constantes {
     public static final String TABLA_RELACIONES = "relaciones";
 
     // Tamaño de las ventanas
-    public static final int VENTANA_ANCHO = 320;
-    public static final int VENTANA_ALTO = 400;
+    public static final int VENTANA_ANCHO = 325;
+    public static final int VENTANA_ALTO = 500;
 
     // Mensajes comunes
     public static final String MENSAJE_ERROR_BBDD = "Error al conectar con la base de datos.";

@@ -37,12 +37,12 @@ public class RelacionDAO {
     }
 
     /**
-     * Obtiene el ID de un curso a partir de su nombre.
+     * Obtiene el ID de un curso a partir de su nombre
      *
-     * @param nombreCurso Nombre del curso.
-     * @return ID del curso si existe, -1 en caso contrario.
+     * @param nombreCurso Nombre del curso
+     * @return ID del curso si existe, -1 en caso contrario
      */
-    private static int obtenerIdCurso(String nombreCurso) {
+    public static int obtenerIdCurso(String nombreCurso) {
         String sql = "SELECT id FROM " + Constantes.TABLA_CURSOS + " WHERE nombre = ?";
         try {
             Connection conn = Conexion.getConexion();
@@ -57,4 +57,27 @@ public class RelacionDAO {
         }
         return -1;
     }
+
+    /**
+     * Metodo que comprueba si la relacion ya existe
+     *
+     * @param idAlumno
+     * @param idCurso
+     * @return
+     */
+    public static boolean relacionExiste(int idAlumno, int idCurso) {
+        String sql = "SELECT 1 FROM relaciones WHERE id_alumno = ? AND id_curso = ?";
+        try {
+            Connection conn = Conexion.getConexion();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idAlumno);
+            stmt.setInt(2, idCurso);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
