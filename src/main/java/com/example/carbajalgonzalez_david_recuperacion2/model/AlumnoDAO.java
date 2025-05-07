@@ -113,7 +113,7 @@ public class AlumnoDAO {
     }
 
     /**
-     * Clase q busca el alumno por el nombre
+     * Clase que busca el alumno por el nombre
      *
      * @param nombre
      * @return

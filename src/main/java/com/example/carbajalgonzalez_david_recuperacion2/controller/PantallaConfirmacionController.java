@@ -137,6 +137,7 @@ public class PantallaConfirmacionController {
 
         // Obtener IDs
         int idAlumno = AlumnoDAO.obtenerIdAlumno(usuario);
+        RelacionDAO.registrarRelacion(idAlumno, curso);
         int idCurso = RelacionDAO.obtenerIdCurso(curso);
 
         // Comprobar si ya está inscrito en el curso
