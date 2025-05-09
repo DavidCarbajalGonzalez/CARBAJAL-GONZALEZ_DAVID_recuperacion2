@@ -9,11 +9,14 @@
         <Label text="Listado de Alumnos" style="-fx-font-size: 16px;" />
         <TableView fx:id="tablaAlumnos">
             <columns>
-                <TableColumn fx:id="colCurso" text="Curso" />
+                <TableColumn fx:id="colCursos" text="Curso" />
                 <TableColumn fx:id="colNombre" text="Nombre" />
                 <TableColumn fx:id="colApellidos" text="Apellidos" />
+                <TableColumn fx:id="colUsuario" text="Usuario" />
+                <TableColumn fx:id="colDireccion" text="Dirección" />
+                <TableColumn fx:id="colTelefono" text="Teléfono" />
             </columns>
         </TableView>
-        <Button text="Volver" onAction="#onVolver" alignment="CENTER" />
+        <Button fx:id="btnVolver" text="Volver" onAction="#onVolver" alignment="CENTER" />
     </VBox>
 </AnchorPane>

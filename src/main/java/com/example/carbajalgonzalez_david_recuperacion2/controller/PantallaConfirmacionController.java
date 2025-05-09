@@ -17,14 +17,21 @@ import javafx.stage.Stage;
  */
 public class PantallaConfirmacionController {
 
-    @FXML private Label cursoLabel;
-    @FXML private Label nombreLabel;
-    @FXML private Label apellidosLabel;
-    @FXML private Label usuarioLabel;
-    @FXML private Label direccionLabel;
-    @FXML private Label telefonoLabel;
+    @FXML
+    private Label cursoLabel;
+    @FXML
+    private Label nombreLabel;
+    @FXML
+    private Label apellidosLabel;
+    @FXML
+    private Label usuarioLabel;
+    @FXML
+    private Label direccionLabel;
+    @FXML
+    private Label telefonoLabel;
 
-    @FXML private Button btnConfirmar;
+    @FXML
+    private Button btnConfirmar;
 
     private Stage stageAnterior;
 
@@ -119,39 +126,5 @@ public class PantallaConfirmacionController {
         PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, cursoLabel);
     }
 
-    @FXML
-    private void onActualizar() {
-        // Verificar si el alumno ya existe por su nombre de usuario
-        Alumno alumnoExistente = AlumnoDAO.buscarPorNombre(usuario);
-        if (alumnoExistente == null) {
-            AlertaUtils.mostrarError("Alumno no encontrado", "El usuario no está registrado. Usa 'Confirmar' para crearlo.");
-            return;
-        }
-
-        // Actualizar sus datos (por si se han cambiado campos)
-        boolean actualizado = AlumnoDAO.actualizarDatosAlumno(usuario, nombre, apellidos, direccion, telefono);
-        if (!actualizado) {
-            AlertaUtils.mostrarError("Error", "No se pudieron actualizar los datos del alumno.");
-            return;
-        }
-
-        // Obtener IDs
-        int idAlumno = AlumnoDAO.obtenerIdAlumno(usuario);
-        RelacionDAO.registrarRelacion(idAlumno, curso);
-        int idCurso = RelacionDAO.obtenerIdCurso(curso);
-
-        // Comprobar si ya está inscrito en el curso
-        if (RelacionDAO.relacionExiste(idAlumno, idCurso)) {
-            AlertaUtils.mostrarError("Ya inscrito", "El alumno ya está inscrito en el curso seleccionado.");
-            return;
-        }
-
-        // Registrar nueva relación alumno-curso
-        RelacionDAO.registrarRelacion(idAlumno, curso);
-        AlertaUtils.mostrarInfo("Éxito", "Alumno actualizado y nuevo curso registrado.");
-
-        // Ir al listado y cerrar
-        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, cursoLabel);
-    }
 
 }

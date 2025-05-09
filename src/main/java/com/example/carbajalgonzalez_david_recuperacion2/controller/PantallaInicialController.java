@@ -37,18 +37,17 @@ public class PantallaInicialController {
     public void initialize() {
         comboCursos.getItems().clear();
         comboCursos.getItems().addAll(CursoDAO.obtenerCursos());
-        nombreField.textProperty().addListener((obs, oldVal, newVal) -> {
+        usuarioField.textProperty().addListener((obs, oldVal, newVal) -> {
             if (!newVal.isEmpty()) {
-                Alumno alumno = AlumnoDAO.buscarPorNombre(newVal);
+                Alumno alumno = AlumnoDAO.buscarPorUsuario(newVal);
                 if (alumno != null) {
-                    usuarioField.setText(alumno.getUsuario());
+                    nombreField.setText(alumno.getNombre());
                     apellidosField.setText(alumno.getApellidos());
                     direccionField.setText(alumno.getDireccion());
                     telefonoField.setText(alumno.getTelefono());
                 }
             }
         });
-
     }
 
     /**

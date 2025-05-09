@@ -22,15 +22,16 @@ public class Conexion {
      * @return Objeto Connection para interactuar con la base de datos.
      */
     public static Connection getConexion() {
-        if (conexion == null) {
-            try {
+        try {
+            if (conexion == null || conexion.isClosed()) {
                 conexion = DriverManager.getConnection(URL);
                 System.out.println("Conexión a la base de datos establecida.");
-            } catch (SQLException e) {
-                System.out.println(Constantes.MENSAJE_ERROR_BBDD);
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            System.out.println(Constantes.MENSAJE_ERROR_BBDD);
+            e.printStackTrace();
         }
         return conexion;
     }
+
 }

@@ -8,14 +8,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.PantallaInicialController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.PantallaInicialController">
     <VBox alignment="CENTER" spacing="15" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
-        <Label style="-fx-font-size: 18px;" text="Gestión de Cursos - Universidad" />
+        <Label style="-fx-font-size: 18px;" text="Gestión de Cursos" />
 
         <ComboBox fx:id="comboCursos" promptText="Selecciona un curso" />
 
         <TextField fx:id="nombreField" promptText="Nombre" />
         <TextField fx:id="apellidosField" promptText="Apellidos" />
+      <Label prefHeight="61.0" prefWidth="254.0" text="(en caso de estar registrado introduce el nombre de usuario para autocompletar los demas campos)" wrapText="true" />
         <TextField fx:id="usuarioField" promptText="Nombre de usuario" />
         <TextField fx:id="direccionField" promptText="Dirección" />
         <TextField fx:id="telefonoField" promptText="Teléfono" />

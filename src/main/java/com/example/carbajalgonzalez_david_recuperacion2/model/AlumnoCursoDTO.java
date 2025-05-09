@@ -1,52 +1,47 @@
 package com.example.carbajalgonzalez_david_recuperacion2.model;
 
 /**
- * Clase de transferencia de datos (DTO) para representar un alumno inscrito en un curso.
- * Contiene el nombre del curso, nombre del alumno y sus apellidos.
+ * DTO (Data Transfer Object) que representa un alumno con todos sus datos y los cursos asociados.
  */
 public class AlumnoCursoDTO {
 
-    private String curso;
     private String nombre;
     private String apellidos;
+    private String nombreUsuario;
+    private String direccion;
+    private String telefono;
+    private String cursos; // Cursos concatenados
 
-    /**
-     * Constructor que inicializa un objeto AlumnoCursoDTO con todos los datos necesarios.
-     *
-     * @param curso     Nombre del curso.
-     * @param nombre    Nombre del alumno.
-     * @param apellidos Apellidos del alumno.
-     */
-    public AlumnoCursoDTO(String curso, String nombre, String apellidos) {
-        this.curso = curso;
+    public AlumnoCursoDTO(String nombre, String apellidos, String nombreUsuario, String direccion, String telefono, String cursos) {
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.nombreUsuario = nombreUsuario;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.cursos = cursos;
     }
 
-    /**
-     * Obtiene el nombre del curso en el que está inscrito el alumno.
-     *
-     * @return Nombre del curso.
-     */
-    public String getCurso() {
-        return curso;
-    }
-
-    /**
-     * Obtiene el nombre del alumno.
-     *
-     * @return Nombre del alumno.
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * Obtiene los apellidos del alumno.
-     *
-     * @return Apellidos del alumno.
-     */
     public String getApellidos() {
         return apellidos;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getCursos() {
+        return cursos;
     }
 }

@@ -20,7 +20,6 @@
         <HBox spacing="10">
             <Button onAction="#onEditar" text="Editar" />
             <Button fx:id="btnConfirmar" onAction="#onConfirmar" text="Confirmar" />
-            <Button text="Actualizar curso" onAction="#onActualizar"/>
         </HBox>
     </VBox>
 </AnchorPane>
