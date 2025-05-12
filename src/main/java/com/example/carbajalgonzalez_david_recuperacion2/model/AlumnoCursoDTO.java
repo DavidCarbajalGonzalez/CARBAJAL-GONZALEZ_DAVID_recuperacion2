@@ -1,7 +1,8 @@
 package com.example.carbajalgonzalez_david_recuperacion2.model;
 
 /**
- * DTO (Data Transfer Object) que representa un alumno con todos sus datos y los cursos asociados.
+ * DTO (Data Transfer Object) que representa un alumno con todos sus datos
+ * personales y los cursos asociados.
  */
 public class AlumnoCursoDTO {
 
@@ -10,8 +11,18 @@ public class AlumnoCursoDTO {
     private String nombreUsuario;
     private String direccion;
     private String telefono;
-    private String cursos; // Cursos concatenados
+    private String cursos; // Cursos concatenados en una sola cadena
 
+    /**
+     * Constructor para crear un objeto AlumnoCursoDTO.
+     *
+     * @param nombre        Nombre del alumno.
+     * @param apellidos     Apellidos del alumno.
+     * @param nombreUsuario Nombre de usuario del alumno.
+     * @param direccion     Dirección del alumno.
+     * @param telefono      Teléfono de contacto del alumno.
+     * @param cursos        Cursos asociados al alumno (concatenados en una cadena).
+     */
     public AlumnoCursoDTO(String nombre, String apellidos, String nombreUsuario, String direccion, String telefono, String cursos) {
         this.nombre = nombre;
         this.apellidos = apellidos;

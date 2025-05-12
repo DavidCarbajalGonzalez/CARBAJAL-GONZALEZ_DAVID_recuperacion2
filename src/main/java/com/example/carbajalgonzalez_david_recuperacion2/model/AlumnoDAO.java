@@ -1,8 +1,5 @@
 package com.example.carbajalgonzalez_david_recuperacion2.model;
 
-import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoCursoDTO;
-import com.example.carbajalgonzalez_david_recuperacion2.model.Conexion;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Clase de acceso a datos (DAO) para gestionar operaciones relacionadas con los alumnos en la base de datos.
+ */
 public class AlumnoDAO {
+
     /**
      * Obtiene una lista de alumnos con todos sus datos y los cursos en los que están inscritos.
      *
@@ -53,6 +53,12 @@ public class AlumnoDAO {
         return lista;
     }
 
+    /**
+     * Obtiene el ID de un alumno a partir de su nombre de usuario.
+     *
+     * @param nombreUsuario Usuario del alumno.
+     * @return ID del alumno, o -1 si no se encuentra.
+     */
     public static int obtenerIdAlumno(String nombreUsuario) {
         String sql = "SELECT id FROM alumnos WHERE nombre_usuario = ?";
         try {
@@ -66,14 +72,23 @@ public class AlumnoDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al obtener ID del alumno:");
+            System.out.println("Error al obtener ID del alumno:");
             e.printStackTrace();
         }
 
         return -1; // ID no encontrado
     }
 
-
+    /**
+     * Inserta un nuevo alumno en la base de datos si no existe previamente.
+     *
+     * @param usuario   Usuario del alumno.
+     * @param nombre    Nombre del alumno.
+     * @param apellidos Apellidos del alumno.
+     * @param direccion Dirección del alumno.
+     * @param telefono  Teléfono de contacto del alumno.
+     * @return ID del alumno insertado o existente, o -1 si hubo error.
+     */
     public static int insertarAlumno(String usuario, String nombre, String apellidos, String direccion, String telefono) {
         try {
             Connection conn = Conexion.getConexion();
@@ -103,7 +118,7 @@ public class AlumnoDAO {
             return obtenerIdAlumno(usuario);
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al insertar alumno:");
+            System.out.println("Error al insertar alumno:");
             e.printStackTrace();
             return -1;
         }
@@ -113,7 +128,7 @@ public class AlumnoDAO {
      * Busca un alumno por su nombre.
      *
      * @param nombre Nombre del alumno.
-     * @return Objeto Alumno si se encuentra, null si no existe.
+     * @return Objeto Alumno si se encuentra, o null si no existe.
      */
     public static Alumno buscarPorNombre(String nombre) {
         String sql = "SELECT * FROM alumnos WHERE nombre = ?";
@@ -140,6 +155,12 @@ public class AlumnoDAO {
         return null;
     }
 
+    /**
+     * Busca un alumno por su nombre de usuario.
+     *
+     * @param usuario Nombre de usuario del alumno.
+     * @return Objeto Alumno si se encuentra, o null si no existe.
+     */
     public static Alumno buscarPorUsuario(String usuario) {
         String sql = "SELECT * FROM alumnos WHERE nombre_usuario = ?";
         try {
@@ -158,7 +179,7 @@ public class AlumnoDAO {
                 );
             }
         } catch (SQLException e) {
-            System.out.println("❌ Error al buscar alumno por usuario:");
+            System.out.println("Error al buscar alumno por usuario:");
             e.printStackTrace();
         }
         return null; // No se encontró el alumno

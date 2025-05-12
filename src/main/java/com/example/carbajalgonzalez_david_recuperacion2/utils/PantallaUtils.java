@@ -13,11 +13,11 @@ import javafx.stage.Stage;
 public class PantallaUtils {
 
     /**
-     * Abre una nueva ventana y opcionalmente cierra la ventana actual.
+     * Abre una nueva ventana especificada por el archivo FXML y opcionalmente cierra la ventana actual.
      *
-     * @param rutaFXML Ruta del archivo FXML de la nueva ventana.
-     * @param titulo   Título de la nueva ventana.
-     * @param nodoActual Nodo de la ventana actual (si quieres cerrarla). Puede ser null si no quieres cerrar nada.
+     * @param rutaFXML   Ruta relativa al archivo FXML de la nueva ventana.
+     * @param titulo     Título de la nueva ventana.
+     * @param nodoActual Nodo de la ventana actual (si quieres cerrarla). Puede ser {@code null} si no se desea cerrar ninguna.
      */
     public static void abrirVentana(String rutaFXML, String titulo, Node nodoActual) {
         try {
@@ -25,7 +25,7 @@ public class PantallaUtils {
             Parent root = loader.load();
             Scene scene = new Scene(root, Constantes.VENTANA_ANCHO, Constantes.VENTANA_ALTO);
 
-            // Aplicar el estilo CSS desde Constantes
+            // Aplicar el estilo CSS desde la ruta especificada en Constantes
             scene.getStylesheets().add(Main.class.getResource(Constantes.ESTILO_CSS).toExternalForm());
 
             Stage stage = new Stage();
@@ -33,7 +33,7 @@ public class PantallaUtils {
             stage.setScene(scene);
             stage.show();
 
-            // Si se pasa un nodo, cerrar la ventana actual
+            // Si se pasa un nodo actual, cerrar su ventana
             if (nodoActual != null) {
                 Stage ventanaActual = (Stage) nodoActual.getScene().getWindow();
                 ventanaActual.close();
@@ -46,9 +46,9 @@ public class PantallaUtils {
     }
 
     /**
-     * Cierra la ventana actual a partir de un nodo.
+     * Cierra la ventana actual asociada a un nodo específico.
      *
-     * @param node Un nodo cualquiera de la ventana (Label, TextField, etc.).
+     * @param node Nodo perteneciente a la ventana que se desea cerrar (por ejemplo, un {@link javafx.scene.control.Label} o {@link javafx.scene.control.TextField}).
      */
     public static void cerrarVentana(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();

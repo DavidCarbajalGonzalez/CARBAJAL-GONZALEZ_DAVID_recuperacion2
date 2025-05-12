@@ -10,15 +10,16 @@ import java.io.IOException;
 
 /**
  * Clase principal de la aplicación JavaFX.
- * Inicia la aplicación cargando la pantalla inicial.
+ * Se encarga de iniciar la interfaz gráfica cargando la pantalla inicial.
  */
 public class Main extends Application {
 
     /**
-     * Método llamado al iniciar la aplicación JavaFX.
+     * Método llamado automáticamente al iniciar la aplicación JavaFX.
+     * Carga la pantalla inicial definida en el archivo FXML correspondiente.
      *
-     * @param stage Escenario principal.
-     * @throws IOException En caso de error al cargar el archivo FXML.
+     * @param stage Escenario principal donde se muestra la ventana.
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -31,9 +32,9 @@ public class Main extends Application {
     }
 
     /**
-     * Método main para lanzar la aplicación.
+     * Método principal que lanza la aplicación JavaFX.
      *
-     * @param args Argumentos de línea de comandos.
+     * @param args Argumentos de la línea de comandos (no utilizados).
      */
     public static void main(String[] args) {
         launch();

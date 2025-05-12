@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.List;
 
 /**
- * Controlador de la pantalla que lista todos los alumnos y sus cursos.
+ * Controlador de la pantalla que muestra el listado de alumnos y los cursos en los que están inscritos.
  */
 public class PantallaListadoController {
 
@@ -27,6 +27,10 @@ public class PantallaListadoController {
     @FXML private TableColumn<AlumnoCursoDTO, String> colCursos;
     @FXML private Button btnVolver;
 
+    /**
+     * Inicializa la tabla de alumnos cargando todos los datos desde la base de datos.
+     * Configura cada columna con su respectiva propiedad del objeto AlumnoCursoDTO.
+     */
     @FXML
     public void initialize() {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
@@ -40,10 +44,12 @@ public class PantallaListadoController {
         tablaAlumnos.setItems(FXCollections.observableArrayList(lista));
     }
 
+    /**
+     * Acción que se ejecuta al pulsar el botón "Volver".
+     * Permite regresar a la pantalla inicial de inscripción.
+     */
     @FXML
     private void onVolver() {
         PantallaUtils.abrirVentana(Constantes.PANTALLA_INICIAL_FXML, Constantes.TITULO_PANTALLA_INICIAL, tablaAlumnos);
     }
 }
-
-
