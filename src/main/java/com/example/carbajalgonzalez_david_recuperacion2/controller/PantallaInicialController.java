@@ -78,6 +78,7 @@ public class PantallaInicialController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Constantes.PANTALLA_CONFIRMACION_FXML));
             Scene scene = new Scene(loader.load());
 
+            // Cargamos el controlador de la nueva ventana
             PantallaConfirmacionController controller = loader.getController();
             controller.inicializarDatos(
                     comboCursos.getValue(),
@@ -89,12 +90,14 @@ public class PantallaInicialController {
                     (Stage) nombreField.getScene().getWindow()
             );
 
-            Stage stage = new Stage();
-            stage.setTitle(Constantes.TITULO_PANTALLA_CONFIRMACION);
-            stage.setScene(scene);
-            stage.show();
+            // Ahora usamos PantallaUtils para abrir la ventana
+            Stage nuevaStage = new Stage();
+            nuevaStage.setTitle(Constantes.TITULO_PANTALLA_CONFIRMACION);
+            nuevaStage.setScene(scene);
+            nuevaStage.show();
 
-            nombreField.getScene().getWindow().hide();
+            // Cerramos la ventana actual usando PantallaUtils
+            PantallaUtils.cerrarVentana(nombreField);
 
         } catch (Exception e) {
             e.printStackTrace();
