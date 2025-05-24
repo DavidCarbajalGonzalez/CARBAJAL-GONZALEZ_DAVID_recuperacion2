@@ -5,6 +5,9 @@ import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase DAO (Data Access Object) para gestionar las relaciones entre alumnos y cursos en la base de datos.
@@ -79,4 +82,53 @@ public class RelacionDAO {
             return false;
         }
     }
+    public static List<AlumnoCursoDTO> obtenerTodosAlumnosConCursos() {
+        List<AlumnoCursoDTO> lista = new ArrayList<>();
+        String sql = "SELECT a.nombre || ' ' || a.apellidos AS nombreAlumno, c.nombre AS nombreCurso " +
+                "FROM relaciones r " +
+                "JOIN alumnos a ON r.id_alumno = a.id " +
+                "JOIN cursos c ON r.id_curso = c.id";
+
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(new AlumnoCursoDTO(
+                        rs.getString("nombreAlumno"),
+                        rs.getString("nombreCurso")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    public static List<AlumnoCursoDTO> obtenerCursosDeAlumno(int idAlumno) {
+        List<AlumnoCursoDTO> lista = new ArrayList<>();
+        String sql = "SELECT a.nombre || ' ' || a.apellidos AS nombreAlumno, c.nombre AS nombreCurso " +
+                "FROM relaciones r " +
+                "JOIN alumnos a ON r.id_alumno = a.id " +
+                "JOIN cursos c ON r.id_curso = c.id " +
+                "WHERE a.id = ?";
+
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idAlumno);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new AlumnoCursoDTO(
+                        rs.getString("nombreAlumno"),
+                        rs.getString("nombreCurso")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
 }

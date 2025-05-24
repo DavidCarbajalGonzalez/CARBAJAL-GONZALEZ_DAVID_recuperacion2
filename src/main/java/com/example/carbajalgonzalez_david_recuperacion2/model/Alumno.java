@@ -5,6 +5,7 @@ package com.example.carbajalgonzalez_david_recuperacion2.model;
  * Contiene la información básica del alumno como usuario, nombre, apellidos, dirección y teléfono.
  */
 public class Alumno {
+    private int id;
     private String usuario;
     private String nombre;
     private String apellidos;
@@ -27,6 +28,16 @@ public class Alumno {
         this.direccion = direccion;
         this.telefono = telefono;
     }
+
+    public Alumno(int id, String nombreUsuario, String nombre, String apellidos, String direccion, String telefono) {
+        this.id = id;
+        this.usuario = nombreUsuario;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.direccion = direccion;
+        this.telefono = telefono;
+    }
+
 
     public String getUsuario() { return usuario; }
 

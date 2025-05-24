@@ -1,6 +1,7 @@
 package com.example.carbajalgonzalez_david_recuperacion2.utils;
 
 import com.example.carbajalgonzalez_david_recuperacion2.Main;
+import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -41,6 +42,25 @@ public class PantallaUtils {
 
         } catch (Exception e) {
             System.out.println("Error al abrir la ventana: " + rutaFXML);
+            e.printStackTrace();
+        }
+    }
+    public static void cambiarPantalla(String fxml, Scene escenaActual, Usuario usuario) {
+        try {
+            FXMLLoader loader = new FXMLLoader(PantallaUtils.class.getResource(
+                    "/com/example/carbajalgonzalez_david_recuperacion2/PantallaInicial.fxml"
+            ));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof com.example.carbajalgonzalez_david_recuperacion2.utils.UsuarioReceptor) {
+                ((com.example.carbajalgonzalez_david_recuperacion2.utils.UsuarioReceptor) controller).setUsuario(usuario);
+            }
+
+            Stage stage = (Stage) escenaActual.getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

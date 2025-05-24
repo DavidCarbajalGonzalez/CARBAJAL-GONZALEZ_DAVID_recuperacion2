@@ -3,20 +3,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.PantallaListadoController">
-    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
         <Label text="Listado de Alumnos" style="-fx-font-size: 16px;" />
-        <TableView fx:id="tablaAlumnos">
+
+        <TableView fx:id="tablaListado">
             <columns>
-                <TableColumn fx:id="colCursos" text="Curso" />
-                <TableColumn fx:id="colNombre" text="Nombre" />
-                <TableColumn fx:id="colApellidos" text="Apellidos" />
-                <TableColumn fx:id="colUsuario" text="Usuario" />
-                <TableColumn fx:id="colDireccion" text="Dirección" />
-                <TableColumn fx:id="colTelefono" text="Teléfono" />
+                <TableColumn fx:id="colAlumno" text="Alumno" />
+                <TableColumn fx:id="colCurso" text="Curso" />
             </columns>
         </TableView>
-        <Button fx:id="btnVolver" text="Volver" onAction="#onVolver" alignment="CENTER" />
+
+        <Button fx:id="btnVolver" text="Volver" onAction="#onVolver" />
     </VBox>
 </AnchorPane>

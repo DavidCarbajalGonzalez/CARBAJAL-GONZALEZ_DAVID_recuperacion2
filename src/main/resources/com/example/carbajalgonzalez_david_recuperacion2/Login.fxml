@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.carbajalgonzalez_david_recuperacion2.controller.LoginController"
+      alignment="CENTER" spacing="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+
+    <Label text="Inicio de sesión" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+    <TextField fx:id="campoUsuario" promptText="Nombre de usuario" />
+    <PasswordField fx:id="campoContrasena" promptText="Contraseña (solo profesor)" />
+
+    <HBox spacing="10">
+        <Button text="Entrar como Alumno" onAction="#entrarComoAlumno" />
+        <Button text="Entrar como Profesor" onAction="#entrarComoProfesor" />
+    </HBox>
+
+    <Label fx:id="labelError" textFill="red" />
+</VBox>

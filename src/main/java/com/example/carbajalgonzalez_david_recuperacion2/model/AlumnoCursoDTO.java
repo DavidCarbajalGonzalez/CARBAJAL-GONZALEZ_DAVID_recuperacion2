@@ -6,15 +6,16 @@ package com.example.carbajalgonzalez_david_recuperacion2.model;
  */
 public class AlumnoCursoDTO {
 
-    private String nombre;
+    private String nombreAlumno;
     private String apellidos;
     private String nombreUsuario;
     private String direccion;
     private String telefono;
     private String cursos; // Cursos concatenados en una sola cadena
+    private String nombreCurso; // Para listados simples
 
     /**
-     * Constructor para crear un objeto AlumnoCursoDTO.
+     * Constructor para crear un objeto AlumnoCursoDTO completo.
      *
      * @param nombre        Nombre del alumno.
      * @param apellidos     Apellidos del alumno.
@@ -24,7 +25,7 @@ public class AlumnoCursoDTO {
      * @param cursos        Cursos asociados al alumno (concatenados en una cadena).
      */
     public AlumnoCursoDTO(String nombre, String apellidos, String nombreUsuario, String direccion, String telefono, String cursos) {
-        this.nombre = nombre;
+        this.nombreAlumno = nombre;
         this.apellidos = apellidos;
         this.nombreUsuario = nombreUsuario;
         this.direccion = direccion;
@@ -32,8 +33,19 @@ public class AlumnoCursoDTO {
         this.cursos = cursos;
     }
 
-    public String getNombre() {
-        return nombre;
+    /**
+     * Constructor alternativo para mostrar solo nombre del alumno y curso.
+     *
+     * @param nombreAlumno Nombre completo del alumno.
+     * @param nombreCurso  Nombre del curso.
+     */
+    public AlumnoCursoDTO(String nombreAlumno, String nombreCurso) {
+        this.nombreAlumno = nombreAlumno;
+        this.nombreCurso = nombreCurso;
+    }
+
+    public String getNombreAlumno() {
+        return nombreAlumno;
     }
 
     public String getApellidos() {
@@ -54,5 +66,9 @@ public class AlumnoCursoDTO {
 
     public String getCursos() {
         return cursos;
+    }
+
+    public String getNombreCurso() {
+        return nombreCurso;
     }
 }
