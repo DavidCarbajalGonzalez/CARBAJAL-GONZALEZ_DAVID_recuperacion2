@@ -84,10 +84,14 @@ public class RelacionDAO {
     }
     public static List<AlumnoCursoDTO> obtenerTodosAlumnosConCursos() {
         List<AlumnoCursoDTO> lista = new ArrayList<>();
-        String sql = "SELECT a.nombre || ' ' || a.apellidos AS nombreAlumno, c.nombre AS nombreCurso " +
-                "FROM relaciones r " +
-                "JOIN alumnos a ON r.id_alumno = a.id " +
-                "JOIN cursos c ON r.id_curso = c.id";
+        String sql = """
+        SELECT a.nombre, a.apellidos, a.nombre_usuario, a.direccion, a.telefono,
+               GROUP_CONCAT(c.nombre, ', ') AS cursos
+        FROM alumnos a
+        JOIN relaciones r ON a.id = r.id_alumno
+        JOIN cursos c ON r.id_curso = c.id
+        GROUP BY a.id
+        """;
 
         try (Connection conn = Conexion.getConexion();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -95,23 +99,32 @@ public class RelacionDAO {
 
             while (rs.next()) {
                 lista.add(new AlumnoCursoDTO(
-                        rs.getString("nombreAlumno"),
-                        rs.getString("nombreCurso")
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("nombre_usuario"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono"),
+                        rs.getString("cursos")
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return lista;
     }
 
     public static List<AlumnoCursoDTO> obtenerCursosDeAlumno(int idAlumno) {
         List<AlumnoCursoDTO> lista = new ArrayList<>();
-        String sql = "SELECT a.nombre || ' ' || a.apellidos AS nombreAlumno, c.nombre AS nombreCurso " +
-                "FROM relaciones r " +
-                "JOIN alumnos a ON r.id_alumno = a.id " +
-                "JOIN cursos c ON r.id_curso = c.id " +
-                "WHERE a.id = ?";
+        String sql = """
+        SELECT a.nombre, a.apellidos, a.nombre_usuario, a.direccion, a.telefono,
+               GROUP_CONCAT(c.nombre, ', ') AS cursos
+        FROM alumnos a
+        JOIN relaciones r ON a.id = r.id_alumno
+        JOIN cursos c ON r.id_curso = c.id
+        WHERE a.id = ?
+        GROUP BY a.id
+        """;
 
         try (Connection conn = Conexion.getConexion();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -121,8 +134,12 @@ public class RelacionDAO {
 
             while (rs.next()) {
                 lista.add(new AlumnoCursoDTO(
-                        rs.getString("nombreAlumno"),
-                        rs.getString("nombreCurso")
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("nombre_usuario"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono"),
+                        rs.getString("cursos")
                 ));
             }
         } catch (SQLException e) {
@@ -130,5 +147,4 @@ public class RelacionDAO {
         }
         return lista;
     }
-
 }

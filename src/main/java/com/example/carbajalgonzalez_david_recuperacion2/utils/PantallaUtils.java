@@ -1,6 +1,5 @@
 package com.example.carbajalgonzalez_david_recuperacion2.utils;
 
-import com.example.carbajalgonzalez_david_recuperacion2.Main;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,67 +7,74 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * Clase utilitaria para gestionar la navegación entre ventanas (escenarios) en la aplicación JavaFX.
  */
 public class PantallaUtils {
 
     /**
-     * Abre una nueva ventana especificada por el archivo FXML y opcionalmente cierra la ventana actual.
+     * Abre una nueva ventana especificada por el archivo FXML y pasa un Usuario al controlador destino.
      *
-     * @param rutaFXML   Ruta relativa al archivo FXML de la nueva ventana.
-     * @param titulo     Título de la nueva ventana.
-     * @param nodoActual Nodo de la ventana actual (si quieres cerrarla). Puede ser {@code null} si no se desea cerrar ninguna.
+     * @param rutaFXML Ruta del FXML (solo el nombre, p. ej. "PantallaListado.fxml").
+     * @param titulo   Título de la ventana.
+     * @param usuario  Usuario a inyectar en el nuevo controlador si implementa UsuarioReceptor.
      */
-    public static void abrirVentana(String rutaFXML, String titulo, Node nodoActual) {
-        try {
-            FXMLLoader loader = new FXMLLoader(PantallaUtils.class.getResource(rutaFXML));
-            Parent root = loader.load();
-            Scene scene = new Scene(root, Constantes.VENTANA_ANCHO, Constantes.VENTANA_ALTO);
-
-            // Aplicar el estilo CSS desde la ruta especificada en Constantes
-            scene.getStylesheets().add(Main.class.getResource(Constantes.ESTILO_CSS).toExternalForm());
-
-            Stage stage = new Stage();
-            stage.setTitle(titulo);
-            stage.setScene(scene);
-            stage.show();
-
-            // Si se pasa un nodo actual, cerrar su ventana
-            if (nodoActual != null) {
-                Stage ventanaActual = (Stage) nodoActual.getScene().getWindow();
-                ventanaActual.close();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error al abrir la ventana: " + rutaFXML);
-            e.printStackTrace();
-        }
-    }
-    public static void cambiarPantalla(String fxml, Scene escenaActual, Usuario usuario) {
+    public static void abrirVentana(String rutaFXML, String titulo, Usuario usuario) {
         try {
             FXMLLoader loader = new FXMLLoader(PantallaUtils.class.getResource(
-                    "/com/example/carbajalgonzalez_david_recuperacion2/PantallaInicial.fxml"
+                    "/com/example/carbajalgonzalez_david_recuperacion2/" + rutaFXML
             ));
             Parent root = loader.load();
 
-            Object controller = loader.getController();
-            if (controller instanceof com.example.carbajalgonzalez_david_recuperacion2.utils.UsuarioReceptor) {
-                ((com.example.carbajalgonzalez_david_recuperacion2.utils.UsuarioReceptor) controller).setUsuario(usuario);
+            Object ctrl = loader.getController();
+            if (ctrl instanceof UsuarioReceptor receptor) {
+                receptor.setUsuario(usuario);
             }
 
-            Stage stage = (Stage) escenaActual.getWindow();
+            Stage stage = new Stage();
+            stage.setTitle(titulo);
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.err.println("Error al abrir la ventana: " + rutaFXML);
             e.printStackTrace();
         }
     }
 
     /**
-     * Cierra la ventana actual asociada a un nodo específico.
+     * Cambia la ventana actual por una nueva, pasando el Usuario al controlador destino.
      *
-     * @param node Nodo perteneciente a la ventana que se desea cerrar (por ejemplo, un {@link javafx.scene.control.Label} o {@link javafx.scene.control.TextField}).
+     * @param rutaFXML      Nombre del FXML a cargar (p. ej. "PantallaListado.fxml").
+     * @param escenaActual  Scene de la ventana que se va a reemplazar.
+     * @param usuario       Usuario a inyectar en el nuevo controlador si implementa UsuarioReceptor.
+     */
+    public static void cambiarPantalla(String fxml, Scene escenaActual, Usuario usuario) {
+        try {
+            FXMLLoader loader = new FXMLLoader(PantallaUtils.class.getResource(
+                    "/com/example/carbajalgonzalez_david_recuperacion2/" + fxml
+            ));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof UsuarioReceptor receptor) {
+                receptor.setUsuario(usuario);
+            }
+
+            Stage stage = (Stage) escenaActual.getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error al cambiar a la pantalla: " + fxml);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Cierra la ventana actual asociada a un nodo de la escena.
+     *
+     * @param node Nodo (Label, Button, TextField, etc.) perteneciente a la ventana que se desea cerrar.
      */
     public static void cerrarVentana(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();

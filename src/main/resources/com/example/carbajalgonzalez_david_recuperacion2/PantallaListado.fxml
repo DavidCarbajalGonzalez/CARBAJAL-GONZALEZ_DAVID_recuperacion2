@@ -15,8 +15,12 @@
 
         <TableView fx:id="tablaListado">
             <columns>
-                <TableColumn fx:id="colAlumno" text="Alumno" />
-                <TableColumn fx:id="colCurso" text="Curso" />
+                <TableColumn fx:id="colCursos" text="Curso" />
+                <TableColumn fx:id="colNombre" text="Nombre" />
+                <TableColumn fx:id="colApellidos" text="Apellidos" />
+                <TableColumn fx:id="colUsuario" text="Usuario" />
+                <TableColumn fx:id="colDireccion" text="Dirección" />
+                <TableColumn fx:id="colTelefono" text="Teléfono" />
             </columns>
         </TableView>
 

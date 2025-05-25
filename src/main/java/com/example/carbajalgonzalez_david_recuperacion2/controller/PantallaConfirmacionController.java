@@ -3,6 +3,7 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.RelacionDAO;
+import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.AlertaUtils;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.PantallaUtils;
@@ -42,6 +43,7 @@ public class PantallaConfirmacionController {
     private String usuario;
     private String direccion;
     private String telefono;
+
 
     /**
      * Inicializa los datos del alumno que se mostrarán en la pantalla de confirmación.
@@ -93,30 +95,36 @@ public class PantallaConfirmacionController {
         Alumno alumnoExistente = AlumnoDAO.buscarPorNombre(usuario);
         int idAlumno;
 
-        if (alumnoExistente != null) {
-            idAlumno = AlumnoDAO.obtenerIdAlumno(usuario);
+        int idCurso = RelacionDAO.obtenerIdCurso(curso);
+        if (idCurso == -1) {
+            AlertaUtils.mostrarError("Error", "Curso no encontrado.");
+            return;
+        }
 
-            int idCurso = RelacionDAO.obtenerIdCurso(curso);
+        if (alumnoExistente != null) {
+            idAlumno = alumnoExistente.getId();
 
             if (RelacionDAO.relacionExiste(idAlumno, idCurso)) {
                 AlertaUtils.mostrarError("Duplicado", "Este alumno ya está inscrito en el curso seleccionado.");
                 return;
             }
-
-            RelacionDAO.registrarRelacion(idAlumno, curso);
-
         } else {
             idAlumno = AlumnoDAO.insertarAlumno(usuario, nombre, apellidos, direccion, telefono);
-
             if (idAlumno == -1) {
                 AlertaUtils.mostrarError("Error", "No se pudo registrar el alumno.");
                 return;
             }
-
-            RelacionDAO.registrarRelacion(idAlumno, curso);
         }
 
+        RelacionDAO.registrarRelacion(idAlumno, String.valueOf(idCurso));
+
         AlertaUtils.mostrarInfo("Éxito", "Alumno inscrito correctamente en el curso.");
-        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, cursoLabel);
+
+        // Creamos un usuario temporal para pasar a la siguiente pantalla
+        var userTemp = new com.example.carbajalgonzalez_david_recuperacion2.model.Usuario(
+                idAlumno, usuario, com.example.carbajalgonzalez_david_recuperacion2.model.Usuario.TipoUsuario.ALUMNO
+                );
+
+        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, userTemp);
     }
 }

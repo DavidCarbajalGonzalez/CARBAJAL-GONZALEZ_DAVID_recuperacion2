@@ -48,4 +48,6 @@ public class Alumno {
     public String getDireccion() { return direccion; }
 
     public String getTelefono() { return telefono; }
+
+    public int getId() { return id; }
 }

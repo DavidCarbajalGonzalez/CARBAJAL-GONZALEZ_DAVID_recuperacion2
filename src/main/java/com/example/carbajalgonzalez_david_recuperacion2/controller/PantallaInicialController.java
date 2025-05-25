@@ -131,6 +131,12 @@ public class PantallaInicialController implements UsuarioReceptor {
 
     @FXML
     private void onVerAlumnos() {
-        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, btnVerAlumnos);
+        // Abre PantallaListado en ventana nueva, pasando el Usuario
+        PantallaUtils.abrirVentana(
+                Constantes.PANTALLA_INICIAL_FXML,
+                Constantes.TITULO_PANTALLA_INICIAL,
+                usuarioActual   // PASAMOS EL USUARIO, NO EL BOTÓN
+        );
     }
+
 }

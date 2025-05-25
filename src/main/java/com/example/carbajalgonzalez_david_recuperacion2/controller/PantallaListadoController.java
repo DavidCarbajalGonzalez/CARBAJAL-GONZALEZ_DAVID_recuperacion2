@@ -3,6 +3,7 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoCursoDTO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.RelacionDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
+import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.PantallaUtils;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.UsuarioReceptor;
 import javafx.fxml.FXML;
@@ -24,10 +25,22 @@ public class PantallaListadoController implements UsuarioReceptor {
     private TableView<AlumnoCursoDTO> tablaListado;
 
     @FXML
-    private TableColumn<AlumnoCursoDTO, String> colAlumno;
+    private TableColumn<AlumnoCursoDTO, String> colCursos;
 
     @FXML
-    private TableColumn<AlumnoCursoDTO, String> colCurso;
+    private TableColumn<AlumnoCursoDTO, String> colNombre;
+
+    @FXML
+    private TableColumn<AlumnoCursoDTO, String> colApellidos;
+
+    @FXML
+    private TableColumn<AlumnoCursoDTO, String> colUsuario;
+
+    @FXML
+    private TableColumn<AlumnoCursoDTO, String> colDireccion;
+
+    @FXML
+    private TableColumn<AlumnoCursoDTO, String> colTelefono;
 
     private Usuario usuarioActual;
 
@@ -39,8 +52,12 @@ public class PantallaListadoController implements UsuarioReceptor {
 
     @FXML
     public void initialize() {
-        colAlumno.setCellValueFactory(new PropertyValueFactory<>("nombreAlumno"));
-        colCurso.setCellValueFactory(new PropertyValueFactory<>("nombreCurso"));
+        colCursos.setCellValueFactory(new PropertyValueFactory<>("cursos"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
+        colUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
     }
 
     private void cargarDatos() {
@@ -57,6 +74,6 @@ public class PantallaListadoController implements UsuarioReceptor {
 
     @FXML
     private void onVolver() {
-        PantallaUtils.cambiarPantalla("PantallaInicial.fxml", tablaListado.getScene(), usuarioActual);
+        PantallaUtils.cambiarPantalla(Constantes.PANTALLA_INICIAL_FXML, tablaListado.getScene(), usuarioActual);
     }
 }
