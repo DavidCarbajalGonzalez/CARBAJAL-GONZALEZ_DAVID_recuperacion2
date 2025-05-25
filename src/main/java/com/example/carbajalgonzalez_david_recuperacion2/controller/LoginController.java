@@ -3,7 +3,6 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
-import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.PantallaUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
