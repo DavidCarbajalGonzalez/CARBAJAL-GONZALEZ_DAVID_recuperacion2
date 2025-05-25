@@ -8,6 +8,8 @@ public class Constantes {
 
     // Rutas de FXML
 
+    public static final String PANTALLA_LOGIN_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/Login.fxml";
+
     /** Ruta del archivo FXML de la pantalla inicial. */
     public static final String PANTALLA_INICIAL_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/PantallaInicial.fxml";
 

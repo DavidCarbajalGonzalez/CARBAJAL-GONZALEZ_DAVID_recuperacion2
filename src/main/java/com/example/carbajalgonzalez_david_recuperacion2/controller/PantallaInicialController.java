@@ -2,6 +2,8 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 
 import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
+import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
+import com.example.carbajalgonzalez_david_recuperacion2.model.TipoUsuario;
 import com.example.carbajalgonzalez_david_recuperacion2.model.CursoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.AlertaUtils;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
@@ -17,8 +19,7 @@ import javafx.stage.Stage;
 
 /**
  * Controlador de la pantalla inicial.
- * Permite al usuario introducir sus datos personales y seleccionar un curso para la inscripción.
- * También ofrece la opción de visualizar los alumnos ya registrados.
+ * Permite el registro de alumnos y creación de cursos según el rol.
  */
 public class PantallaInicialController {
 
@@ -30,10 +31,15 @@ public class PantallaInicialController {
     @FXML private TextField telefonoField;
 
     @FXML private Button btnVerAlumnos;
+    @FXML private Button btnCrearAlumno;
+    @FXML private Button btnCrearCurso;
+    @FXML private Button btnMatricular;
+
+    private Usuario usuario;
 
     /**
      * Inicializa la pantalla inicial.
-     * Carga los cursos disponibles en el ComboBox y añade un listener al campo de usuario para autocompletar datos si el usuario ya existe.
+     * Carga los cursos disponibles y añade un listener para autocompletar datos de alumno.
      */
     @FXML
     public void initialize() {
@@ -54,8 +60,42 @@ public class PantallaInicialController {
     }
 
     /**
-     * Acción que se ejecuta al pulsar el botón "Siguiente".
-     * Valida los datos introducidos y, si son correctos, abre la pantalla de confirmación para revisar la inscripción.
+     * Configura la vista según el usuario autenticado.
+     */
+    public void setUsuario(Usuario u) {
+        this.usuario = u;
+
+        if (u.getTipo() == TipoUsuario.ALUMNO) {
+            // Poblar datos del alumno y deshabilitar creación
+            Alumno a = AlumnoDAO.buscarPorUsuario(u.getUsuario());
+            if (a != null) {
+                nombreField.setText(a.getNombre());
+                apellidosField.setText(a.getApellidos());
+                direccionField.setText(a.getDireccion());
+                telefonoField.setText(a.getTelefono());
+                usuarioField.setText(a.getUsuario());
+                if (a.getCursos() != null && !a.getCursos().isEmpty()) {
+                    comboCursos.getSelectionModel().select(a.getCursos().get(0));
+                }
+            }
+            btnCrearAlumno.setDisable(true);
+            btnCrearCurso.setDisable(true);
+        } else if (u.getTipo() == TipoUsuario.ADMIN) {
+            // Limpia campos y habilita creación
+            nombreField.clear();
+            apellidosField.clear();
+            direccionField.clear();
+            telefonoField.clear();
+            usuarioField.clear();
+            comboCursos.getSelectionModel().clearSelection();
+
+            btnCrearAlumno.setDisable(false);
+            btnCrearCurso.setDisable(false);
+        }
+    }
+
+    /**
+     * Acción para matricular un alumno.
      */
     @FXML
     private void onSiguiente() {
@@ -78,7 +118,6 @@ public class PantallaInicialController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Constantes.PANTALLA_CONFIRMACION_FXML));
             Scene scene = new Scene(loader.load());
 
-            // Cargamos el controlador de la nueva ventana
             PantallaConfirmacionController controller = loader.getController();
             controller.inicializarDatos(
                     comboCursos.getValue(),
@@ -90,13 +129,11 @@ public class PantallaInicialController {
                     (Stage) nombreField.getScene().getWindow()
             );
 
-            // Ahora usamos PantallaUtils para abrir la ventana
             Stage nuevaStage = new Stage();
             nuevaStage.setTitle(Constantes.TITULO_PANTALLA_CONFIRMACION);
             nuevaStage.setScene(scene);
             nuevaStage.show();
 
-            // Cerramos la ventana actual usando PantallaUtils
             PantallaUtils.cerrarVentana(nombreField);
 
         } catch (Exception e) {
@@ -105,11 +142,21 @@ public class PantallaInicialController {
     }
 
     /**
-     * Acción que se ejecuta al pulsar el botón "Ver alumnos".
-     * Abre la pantalla de listado de alumnos inscritos en los cursos.
+     * Acción para visualizar la lista de alumnos.
      */
     @FXML
     private void onVerAlumnos() {
-        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML, Constantes.TITULO_PANTALLA_LISTADO, btnVerAlumnos);
+        PantallaUtils.abrirVentana(Constantes.PANTALLA_LISTADO_FXML,
+                Constantes.TITULO_PANTALLA_LISTADO,
+                btnVerAlumnos);
+    }
+
+    // Stubs para creación (implementar según lógica DAO)
+    @FXML private void onCrearAlumno() {
+        // Lógica para crear un nuevo alumno
+    }
+
+    @FXML private void onCrearCurso() {
+        // Lógica para crear un nuevo curso
     }
 }
