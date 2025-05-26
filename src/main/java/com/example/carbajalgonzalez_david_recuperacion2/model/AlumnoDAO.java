@@ -184,4 +184,26 @@ public class AlumnoDAO {
         }
         return null; // No se encontró el alumno
     }
+
+    public static Alumno obtenerPorUsername(String username) {
+        String sql = "SELECT * FROM Alumno WHERE username = ?";
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Alumno(
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("username"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono")
+
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

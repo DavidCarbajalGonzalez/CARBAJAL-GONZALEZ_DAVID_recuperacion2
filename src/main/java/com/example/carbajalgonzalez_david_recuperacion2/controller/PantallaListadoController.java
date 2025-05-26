@@ -2,6 +2,8 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoCursoDTO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
+import com.example.carbajalgonzalez_david_recuperacion2.model.RelacionDAO;
+import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.PantallaUtils;
 import javafx.collections.FXCollections;
@@ -27,6 +29,8 @@ public class PantallaListadoController {
     @FXML private TableColumn<AlumnoCursoDTO, String> colCursos;
     @FXML private Button btnVolver;
 
+    private Usuario usuarioLogueado;
+
     /**
      * Inicializa la tabla de alumnos cargando todos los datos desde la base de datos.
      * Configura cada columna con su respectiva propiedad del objeto AlumnoCursoDTO.
@@ -36,13 +40,39 @@ public class PantallaListadoController {
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         colUsuario.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
-        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
-        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory<>("direción"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory<>("teléfono"));
         colCursos.setCellValueFactory(new PropertyValueFactory<>("cursos"));
 
         List<AlumnoCursoDTO> lista = AlumnoDAO.obtenerAlumnosConCursos();
         tablaAlumnos.setItems(FXCollections.observableArrayList(lista));
     }
+    public void setUsuario(Usuario u) {
+        this.usuarioLogueado = u;
+        cargarDatos();
+    }
+
+    /** Carga los registros: todos para el profe, sólo los del alumno si es rol ALUMNO */
+    private void cargarDatos() {
+        if (usuarioLogueado.getTipo() == Usuario.TipoUsuario.PROFESOR) {
+            tablaAlumnos.getItems().setAll(RelacionDAO.obtenerTodosLosRegistros());
+        } else {
+            tablaAlumnos.getItems().setAll(
+                    RelacionDAO.obtenerRegistrosPorUsuario(usuarioLogueado.getUsername())
+            );
+        }
+    }
+
+    /** Activa o desactiva botones según rol */
+
+    /*
+    private void configurarPermisos() {
+        boolean esAlumno = usuarioLogueado.getTipo() == Usuario.TipoUsuario.ALUMNO;
+        btnEditar.setDisable(esAlumno);
+        btnEliminar.setDisable(esAlumno);
+        btnNuevo.setDisable(esAlumno);
+    }
+    */
 
     /**
      * Acción que se ejecuta al pulsar el botón "Volver".

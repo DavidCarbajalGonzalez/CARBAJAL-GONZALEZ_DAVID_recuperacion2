@@ -32,6 +32,9 @@ public class AlumnoCursoDTO {
         this.cursos = cursos;
     }
 
+    public AlumnoCursoDTO(int alumnoId, String nombre, String apellidos, String username, int cursoId, String cursoNombre) {
+    }
+
     public String getNombre() {
         return nombre;
     }

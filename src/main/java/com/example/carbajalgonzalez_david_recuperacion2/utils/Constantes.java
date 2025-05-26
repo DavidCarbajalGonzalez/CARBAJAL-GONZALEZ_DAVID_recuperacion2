@@ -8,6 +8,8 @@ public class Constantes {
 
     // Rutas de FXML
 
+    public static final String PANTALLA_LOGIN_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/Login.fxml";
+
     /** Ruta del archivo FXML de la pantalla inicial. */
     public static final String PANTALLA_INICIAL_FXML = "/com/example/carbajalgonzalez_david_recuperacion2/PantallaInicial.fxml";
 
@@ -26,6 +28,8 @@ public class Constantes {
     public static final String RUTA_BASEDATOS = "data/universidad.db";
 
     // Títulos de ventanas
+
+    public static final  String TITULO_PANTALLA_LOGIN = "Identificación";
 
     /** Título de la ventana de inscripción. */
     public static final String TITULO_PANTALLA_INICIAL = "Inscripción a cursos";

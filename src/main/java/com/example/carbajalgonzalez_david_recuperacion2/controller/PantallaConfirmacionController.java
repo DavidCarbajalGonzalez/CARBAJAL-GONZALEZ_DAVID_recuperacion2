@@ -3,6 +3,7 @@ package com.example.carbajalgonzalez_david_recuperacion2.controller;
 import com.example.carbajalgonzalez_david_recuperacion2.model.Alumno;
 import com.example.carbajalgonzalez_david_recuperacion2.model.AlumnoDAO;
 import com.example.carbajalgonzalez_david_recuperacion2.model.RelacionDAO;
+import com.example.carbajalgonzalez_david_recuperacion2.model.Usuario;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.AlertaUtils;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 import com.example.carbajalgonzalez_david_recuperacion2.utils.PantallaUtils;
@@ -46,15 +47,16 @@ public class PantallaConfirmacionController {
     /**
      * Inicializa los datos del alumno que se mostrarán en la pantalla de confirmación.
      *
-     * @param curso         Nombre del curso seleccionado.
-     * @param nombre        Nombre del alumno.
-     * @param apellidos     Apellidos del alumno.
-     * @param usuario       Usuario (login) del alumno.
-     * @param direccion     Dirección de residencia del alumno.
-     * @param telefono      Teléfono de contacto del alumno.
-     * @param stageAnterior Ventana anterior desde donde se llegó a la confirmación.
+     * @param curso           Nombre del curso seleccionado.
+     * @param nombre          Nombre del alumno.
+     * @param apellidos       Apellidos del alumno.
+     * @param usuario         Usuario (login) del alumno.
+     * @param direccion       Dirección de residencia del alumno.
+     * @param telefono        Teléfono de contacto del alumno.
+     * @param stageAnterior   Ventana anterior desde donde se llegó a la confirmación.
+     * @param usuarioLogueado
      */
-    public void inicializarDatos(String curso, String nombre, String apellidos, String usuario, String direccion, String telefono, Stage stageAnterior) {
+    public void inicializarDatos(String curso, String nombre, String apellidos, String usuario, String direccion, String telefono, Stage stageAnterior, Usuario usuarioLogueado) {
         this.curso = curso;
         this.nombre = nombre;
         this.apellidos = apellidos;

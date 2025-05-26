@@ -2,9 +2,9 @@ package com.example.carbajalgonzalez_david_recuperacion2.model;
 
 import com.example.carbajalgonzalez_david_recuperacion2.utils.Constantes;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase DAO (Data Access Object) para gestionar las relaciones entre alumnos y cursos en la base de datos.
@@ -78,5 +78,79 @@ public class RelacionDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Devuelve todos los registros (para el profesor)
+     */
+    public static List<AlumnoCursoDTO> obtenerTodosLosRegistros() {
+        String sql = """
+            SELECT a.id    AS id_alumno,
+                   a.nombre,
+                   a.apellidos,
+                   a.nombre_usuario,
+                   c.id    AS id_curso,
+                   c.nombre AS curso_nombre
+              FROM relaciones r
+              JOIN alumnos a ON r.id_alumno = a.id
+              JOIN cursos   c ON r.id_curso  = c.id
+            """;
+
+        List<AlumnoCursoDTO> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConexion();
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                lista.add(new AlumnoCursoDTO(
+                        rs.getInt("id_alumno"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("nombre_usuario"),
+                        rs.getInt("id_curso"),
+                        rs.getString("curso_nombre")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    /**
+     * Devuelve solo los registros del alumno dado (para el rol ALUMNO)
+     */
+    public static List<AlumnoCursoDTO> obtenerRegistrosPorUsuario(String username) {
+        String sql = """
+            SELECT a.id    AS id_alumno,
+                   a.nombre,
+                   a.apellidos,
+                   a.nombre_usuario,
+                   c.id    AS id_curso,
+                   c.nombre AS curso_nombre
+              FROM relaciones r
+              JOIN alumnos a ON r.id_alumno = a.id
+              JOIN cursos   c ON r.id_curso  = c.id
+             WHERE a.nombre_usuario = ?
+            """;
+
+        List<AlumnoCursoDTO> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                lista.add(new AlumnoCursoDTO(
+                        rs.getInt("id_alumno"),
+                        rs.getString("nombre"),
+                        rs.getString("apellidos"),
+                        rs.getString("nombre_usuario"),
+                        rs.getInt("id_curso"),
+                        rs.getString("curso_nombre")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

@@ -22,7 +22,7 @@
         <TextField fx:id="telefonoField" promptText="Teléfono" />
 
         <HBox spacing="10">
-            <Button onAction="#onSiguiente" text="Siguiente" />
+            <Button fx:id="btnSiguiente" onAction="#onSiguiente" text="Siguiente" />
             <Button fx:id="btnVerAlumnos" onAction="#onVerAlumnos" text="Ver alumnos" />
         </HBox>
     </VBox>
